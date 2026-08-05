@@ -10,10 +10,10 @@ List the available skills:
 npx skills add kovart/ai-harness --list
 ```
 
-Install `design-variants` globally. The skills CLI detects compatible agents automatically:
+Install `design-variants`. The skills CLI detects compatible agents automatically:
 
 ```bash
-npx skills add kovart/ai-harness --skill design-variants -g -y
+npx skills add kovart/ai-harness --skill design-variants -y
 ```
 
 ## Repository layout
