@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+.env
+.env.*
+!.env.example
+*.local
+.idea/
+.vscode/

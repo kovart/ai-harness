@@ -1,0 +1,7 @@
+interface:
+  display_name: "Design Variants"
+  short_description: "Generate standalone HTML demo pages with multiple distinct design variants for a UI component, using the project's real design tokens"
+  default_prompt: "Use $design-variants to explore multiple structurally-different design options for this component before implementing."
+
+policy:
+  allow_implicit_invocation: true
