@@ -1,6 +1,6 @@
 # Repository Harness
 
-Keep this repository small, public-safe, and compatible with the Agent Skills ecosystem.
+Keep this repository small, portable, and compatible with the Agent Skills ecosystem.
 
 ## Rules
 
@@ -8,8 +8,7 @@ Keep this repository small, public-safe, and compatible with the Agent Skills ec
 - Keep `SKILL.md` frontmatter limited to `name` and `description`, and make `name` match the directory.
 - Prefer concise procedural instructions. Add `references/`, `scripts/`, or `assets/` only when the skill uses them.
 - Keep tool-specific UI metadata under `agents/`; keep the main skill usable across agents.
-- Do not commit credentials, private URLs, personal notes, organization-only instructions, or machine-specific paths.
-- Do not copy private repositories or configuration wholesale. Publish only deliberately reviewed files.
+- Do not commit credentials, personal data, environment-specific URLs, or machine-specific paths.
 - Make the smallest change that solves the current need; do not scaffold speculative categories.
 
 ## Validation

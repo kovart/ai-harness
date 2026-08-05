@@ -1,7 +1,6 @@
 # AI Harness
 
 Battle-tested agent skills and the lightweight harness used to maintain them.
-This repository is intentionally public and contains only reusable, shareable material.
 
 ## Install
 
@@ -11,10 +10,10 @@ List the available skills:
 npx skills add kovart/ai-harness --list
 ```
 
-Install `design-variants` globally for Codex and Claude Code:
+Install `design-variants`. The skills CLI detects compatible agents automatically:
 
 ```bash
-npx skills add kovart/ai-harness --skill design-variants -g --agent codex --agent claude-code -y
+npx skills add kovart/ai-harness --skill design-variants -y
 ```
 
 ## Repository layout
