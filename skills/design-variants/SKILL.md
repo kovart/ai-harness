@@ -159,7 +159,7 @@ the user asks for more.
 **Variant quality rules:**
 - Each variant must be **structurally different** — different layout composition, information hierarchy, or visual treatment. Not just color/size tweaks.
 - Each variant must **fit the app** (see Fit the App).
-- Consult the `frontend-design` and `professional-ui-calibration` skills, when available, for quality standards.
+- Consult the `frontend-design` skill, when available, for quality standards.
 - No gradient text, no glassmorphism, no neon-on-dark unless the project's design system uses them.
 
 Open the overview in the browser after generating: `open <round>/index.html` (macOS) or
