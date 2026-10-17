@@ -3,8 +3,8 @@
 ## Round Layout
 
 ```text
-design/{component-name}-system/       design:export output, when the project has one
-design/{component-name}-options/      first round; iterations are {component-name}-v{N}/
+~/design-rounds/<project>/<yyyy-mm-dd>-<topic>/     first round; iterations are <…>-v{N}/
+  system/                             copy of the design:export output (tokens.css, styles.css, fixtures.json, fragments)
   index.html                          overview: every option framed in the full app
   tokens.css                          token mirror, only without an export
   page.css                            shell, page header and neighbouring blocks, shared by every page
@@ -26,9 +26,9 @@ page must open on its own.
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Option 3 · Inline Stats — {Component}</title>
-<!-- With an export: ../{component-name}-system/tokens.css and styles.css. Without: tokens.css -->
-<link rel="stylesheet" href="../{component-name}-system/tokens.css">
-<link rel="stylesheet" href="../{component-name}-system/styles.css">
+<!-- With an export: system/tokens.css and system/styles.css. Without: tokens.css -->
+<link rel="stylesheet" href="system/tokens.css">
+<link rel="stylesheet" href="system/styles.css">
 <link rel="stylesheet" href="page.css">
 <style>
   /* Only this variant's component styles, prefixed .v3- */
@@ -60,7 +60,7 @@ both inside the overview frame and as a full page. No option labels or notes on 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{Component} — Design Options</title>
 <!-- Tokens only (the export's tokens.css or the round's tokens.css); never page.css -->
-<link rel="stylesheet" href="../{component-name}-system/tokens.css">
+<link rel="stylesheet" href="system/tokens.css">
 <style>
   body { margin: 0; padding: 32px 24px 96px; background: var(--surface-canvas); }
   .overview-header, .option { max-width: 1440px; margin-inline: auto; }
@@ -134,7 +134,7 @@ Common states to consider:
 
 ## Iteration Rounds
 
-When refining after user feedback, create `design/{component-name}-v{N}/` in the same Git-ignored artifact folder:
+When refining after user feedback, create `<round>-v{N}/` beside the first round, with the same `system/` copy:
 
 - Reduce to 2-3 variants combining elements the user liked
 - Show all relevant states for each variant

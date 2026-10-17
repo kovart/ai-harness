@@ -34,16 +34,18 @@ color and finish, not on code. Engineering starts in Phase 5.
   top bar) and the page's neighbouring components:
   `npm run design:export -- --list --ids '<glob>'` shows ids and states, then
   `npm run design:export -- --ids app-shell,button,metric-card:default --out design/{component-name}-system`.
-  Link its `tokens.css` and `styles.css`, copy each element verbatim from the fragments the run
-  prints, and edit only what the variant redesigns. Never retype a component or its class names.
+  The export rewrites its output folder on every run, so copy it into the round
+  (`cp -R design/{component-name}-system <round>/system`), link `system/tokens.css` and
+  `system/styles.css`, copy each element verbatim from the fragments the run prints, and edit only
+  what the variant redesigns. Never retype a component or its class names.
   Running this command is fine; writing scripts is not. Freeze hover, pressed or focus by adding
   `is-hover`, `is-active` or `is-focus-visible` to the element that has the pseudo-class. A
   component or state the export lacks is drawn by hand, labelled "hand-drawn" in its variant, and
   named in your reply so it can be added to the design system.
-- **Start fresh.** Do not open or reuse rounds from earlier conversations in `design/` unless the user
-  names one. Iterations build on this conversation's previous round.
+- **Start fresh.** Do not open or reuse rounds from earlier conversations unless the user names one.
+  Iterations build on this conversation's previous round.
 - **Every variant lives in the full app.** Each variant page is the complete screen the component
-  belongs to: app shell, top bar, page header and neighbouring blocks with plausible data, at a desktop
+  belongs to: app shell, top bar, page header and neighbouring blocks with the round's data, at a desktop
   viewport (1440×900 unless the project targets another). Copy the shell and neighbours from the
   export when there is one; otherwise hand-draw them from the layout and page code at the same
   fidelity as the variant, so nothing reads as a wireframe. No pixel diffs against the running app.
@@ -52,7 +54,9 @@ color and finish, not on code. Engineering starts in Phase 5.
   implementation choice.
 - **Motion is CSS only**: transitions and `@keyframes`. Show behavior CSS can't express as labeled
   static frames.
-- **Data is plausible, not verified.** Use the codebase's data shapes and realistic values. Don't call
+- **Data comes from the fixture pack.** When the export writes `fixtures.json`, draw its typical case
+  and one extreme on the same page. Without a pack, use the codebase's data shapes and realistic
+  values. Never invent fields or features the product lacks, never use customer data, and don't call
   APIs, capture live responses, or audit data correctness.
 - **Check once per round.** One screenshot pass to catch broken layout or overflow: a full-page
   screenshot of the overview shows every frame. No measure, film, or diff scripts.
@@ -83,14 +87,15 @@ A variant that only looks good on its own fails. Design every variant as a part 
 
 ## Artifact Location
 
-Keep every round in its own folder under the project-root `design/` folder, including iterations.
-Create the folders as needed; resolve relative token, font, and asset URLs from the round folder.
+Rounds live outside the repository so they survive worktrees and resets:
+`~/design-rounds/<project>/<yyyy-mm-dd>-<topic>/` for each round, where `<project>` is the repository
+name. Never delete a round. Resolve relative token, font, and asset URLs from the round folder.
 
-In a Git checkout, verify each round with `git check-ignore -v -- design/{round}/index.html`. If it is
-not ignored, add `/design/` once to the local exclude file returned by
-`git rev-parse --git-path info/exclude` and recheck. `git ls-files -- design/{round}` must return
-nothing: never overwrite tracked files or force-add these artifacts. Outside Git, use the same
-`design/` folder.
+The project export must write inside the repository's `design/` folder: run it there, then copy the
+system folder into the round as `system/`. Inside the repository, `design/` stays Git-ignored: check
+with `git check-ignore -v -- design/{component-name}-system/tokens.css` and, if it is not ignored, add
+`/design/` to the file returned by `git rev-parse --git-path info/exclude`. Never force-add the export
+or overwrite tracked files.
 
 ## Workflow
 
@@ -126,10 +131,11 @@ Skim the existing component code, if any, for its data shape, states (empty, loa
 
 ### Phase 3 — Build the Round
 
-Create the round folder `design/{component-name}-options/`:
+Create the round folder (see Artifact Location), with the export copied in as `system/` when there is
+one:
 
 1. **Baseline page.** Build the full app page the component lives on: shell, top bar, page header,
-   neighbouring blocks and plausible data. When redesigning, it shows today's component and stays in
+   neighbouring blocks and the round's data. When redesigning, it shows today's component and stays in
    the round as `0-current.html` (Option 0, for comparison); for a new component it shows where the
    component will sit. Get the baseline right first: it is the context every variant is judged in.
 2. **Variant pages.** Copy the baseline once per variant to `{n}-{slug}.html` and replace only the
@@ -141,7 +147,8 @@ Create the round folder `design/{component-name}-options/`:
    viewport height. No JavaScript.
 
 **Per variant:**
-- Plausible mock data in the codebase's data shape, the same data in every variant
+- The same data in every variant: the fixture pack's typical case and one extreme, or plausible data
+  in the codebase's data shape
 - CSS `:hover` / `:focus` states where relevant
 - Other states that change the decision (empty, filtered, error) as extra full pages
   `{n}-{slug}--{state}.html`, linked under the option's frame in the overview
@@ -155,14 +162,15 @@ the user asks for more.
 - Consult the `frontend-design` and `professional-ui-calibration` skills, when available, for quality standards.
 - No gradient text, no glassmorphism, no neon-on-dark unless the project's design system uses them.
 
-Open the overview in the browser after generating: `open design/{round}/index.html` (macOS) or
-`xdg-open design/{round}/index.html` (Linux).
+Open the overview in the browser after generating: `open <round>/index.html` (macOS) or
+`xdg-open <round>/index.html` (Linux).
 
 ### Phase 4 — Iterate
 
 When the user gives feedback ("I like the badges from Option 3 and the bar from Option 5"):
 
-1. Create a new round folder from the same baseline: `design/{component-name}-v{N}/`
+1. Create a new round folder from the same baseline beside the first: `<round>-v{N}/`, with the same
+   `system/` copy
 2. Combine the selected elements into 2-3 refined variants, each a full page (keep `0-current.html`
    when redesigning)
 3. Show all relevant states for each refined variant as state pages
@@ -190,5 +198,6 @@ See [references/demo-page-guidelines.md](references/demo-page-guidelines.md) for
 - Variants must be **structurally different**, not superficial tweaks
 - Every variant is **a full app page** that fits the product's design, compared in one overview and
   openable on its own
-- Use **plausible data** in the codebase's data shape
+- Use the **fixture pack's data** when the export ships one, otherwise plausible data in the
+  codebase's data shape
 - **Hand-written static HTML + CSS** — no JavaScript, no build step, no generator scripts
